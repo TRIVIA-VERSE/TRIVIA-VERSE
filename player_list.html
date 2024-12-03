@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player List</title>
+    <style>
+        body {
+            font-family: 'Comics', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 50%, transparent 50%) center / 5px 5px,
+                        linear-gradient(rgba(0, 0, 0, 0.8) 50%, transparent 50%) center / 5px 5px,
+                        radial-gradient(circle, #ff00ff, #0000ff, #000000);
+            color: #fff;
+            text-align: center;
+        }
+
+        /* Leaderboard Title */
+        h1 {
+            font-size: 50px;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00, 0 0 40px #00ff00;
+        }
+
+        #player-list {
+            margin-top: 30px;
+            padding: 0;
+            list-style: none;
+            overflow-y: auto;
+            max-height: 400px; /* Prevents the list from going out of screen */
+            margin: 20px;
+        }
+
+        .player-entry {
+            margin: 15px 0;
+            padding: 10px;
+            font-size: 25px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            text-align: left;
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        .player-entry:nth-child(odd) {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .player-entry span {
+            color: #ff0;
+            text-shadow: 0 0 10px #ff0, 0 0 20px #ff0;
+        }
+
+        a {
+            margin-top: 30px;
+            display: inline-block;
+            text-decoration: none;
+            color: #00ffff;
+            font-size: 20px;
+            border: 2px solid #00ffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #000;
+            box-shadow: 0 0 10px #00ffff;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            background-color: #00ffff;
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        #reset-btn {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 0 10px #ff0000;
+        }
+
+        #reset-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Arcade Leaderboard</h1>
+        <div id="player-list"></div>
+        <button id="reset-btn">Reset Leaderboard</button>
+        <br>
+        <a href="index.html">Back to Quiz</a>
+    </div>
+
+    <script>
+        const playerList = JSON.parse(localStorage.getItem("playerList")) || [];
+        const playerListElement = document.getElementById("player-list");
+        const resetButton = document.getElementById("reset-btn");
+
+        // Function to display the leaderboard
+        function displayPlayerList() {
+            if (Array.isArray(playerList) && playerList.length > 0) {
+                playerListElement.innerHTML = "";  // Clear the list before re-rendering
+
+                // Sort players by score in descending order
+                playerList.sort((a, b) => b.score - a.score);
+
+                playerList.forEach((entry, index) => {
+                    if (entry.name && entry.score !== undefined) {
+                        const entryElement = document.createElement("div");
+                        entryElement.classList.add("player-entry");
+                        entryElement.innerHTML = `${index + 1}. <span>${entry.name}</span> - ${entry.score}`;
+                        playerListElement.appendChild(entryElement);
+                    } else {
+                        console.error(`Invalid entry format at index ${index}:`, entry);
+                    }
+                });
+            } else {
+                playerListElement.textContent = "No players have participated yet.";
+            }
+        }
+
+        // Display the player list when the page loads
+        displayPlayerList();
+
+        // Reset button event listener
+        resetButton.addEventListener("click", function() {
+            // Clear the player list from localStorage
+            localStorage.removeItem("playerList");
+
+            // Re-render the empty state
+            displayPlayerList();
+        });
+    </script>
+</body>
+</html>
