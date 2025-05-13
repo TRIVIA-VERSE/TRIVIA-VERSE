@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trivia Verse - Two Player Mode</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="Twoplayer.css" />
+</head>
+<div class="container active" id="start-screen">
+  <h1 class="logo">Trivia Verse</h1>
+  <input type="text" id="player1-name" placeholder="Player 1 Name" />
+  <input type="text" id="player2-name" placeholder="Player 2 Name" />
+  <button onclick="startGame()">Start Game</button>
+</div>
+
+
+  <div class="game-container" id="game-screen">
+    <div class="status-bar">
+      <div class="player player-left">
+        <p id="name1"></p>
+        <p>Lives: <span id="hearts1" class="hearts"></span></p>
+        <p>Score: <span id="score1">0</span></p>
+      </div>
+
+      <div class="center-box">
+        <p id="turn-indicator"></p>
+        <p id="defense-mode" class="defense-text"></p>
+        <p id="timer"></p>
+        <div id="question-box">
+          <p id="question"></p>
+          <div id="options"></div>
+        </div>
+        <p id="feedback"></p>
+        <button id="next-btn">Next</button>
+      </div>
+
+      <div class="player player-right">
+        <p id="name2"></p>
+        <p>Lives: <span id="hearts2" class="hearts"></span></p>
+        <p>Score: <span id="score2">0</span></p>
+      </div>
+    </div>
+    <button id="home-btn" onclick="goHome()">Home</button>
+  </div>
+
+
+  <script src="Twoplayer.js"></script>
+</body>
+</html>
